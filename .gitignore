@@ -1,0 +1,7 @@
+# directories
+/config/minio/
+/data/
+
+# files
+/.env.production
+

@@ -1,0 +1,23 @@
+version: '3.0'
+services:
+  storage:
+    image: minio/minio:latest
+    ports:
+      - "8080:9000"
+    command: server /export
+    volumes:
+      - ./data/minio:/export
+      - ./config/minio:/root/.minio
+  webp-proxy:
+    image: ykzts/webp-proxy:edge
+    command: go-wrapper run -port 8080 -upstream-url http://storage:9000
+    depends_on:
+      - storage
+  cache:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    depends_on:
+      - webp-proxy
+    volumes:
+      - ./config/nginx:/etc/nginx:ro
