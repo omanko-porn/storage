@@ -2,8 +2,6 @@ version: '3.0'
 services:
   storage:
     image: minio/minio:latest
-    ports:
-      - "8080:9000"
     command: server /export
     volumes:
       - ./data/minio:/export
@@ -17,7 +15,11 @@ services:
     image: nginx:alpine
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
+      - storage
       - webp-proxy
     volumes:
       - ./config/nginx:/etc/nginx:ro
+      - ./data/letsencrypt:/etc/letsencrypt:ro
+      - ./public:/var/www/html:ro
