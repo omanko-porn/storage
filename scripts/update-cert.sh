@@ -19,3 +19,4 @@ docker run \
   --email ykzts@desire.sh \
   --cert-name storage.omanko.porn \
   --domains storage.omanko.porn
+docker-compose kill -s HUP cache
