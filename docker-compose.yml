@@ -7,10 +7,10 @@ services:
     volumes:
       - ./data/minio:/export
       - ./config/minio:/root/.minio
-  webp-proxy:
+  proxy:
     restart: always
-    image: ykzts/webp-proxy:edge
-    command: webp-proxy -port 8080 -upstream-url http://storage:9000
+    image: manael/manael:edge
+    command: manael -http=:8080 -upstream_url=http://storage:9000
     depends_on:
       - storage
   cache:
@@ -21,7 +21,7 @@ services:
       - "443:443"
     depends_on:
       - storage
-      - webp-proxy
+      - proxy
     volumes:
       - ./config/nginx:/etc/nginx:ro
       - ./data/letsencrypt:/etc/letsencrypt:ro
